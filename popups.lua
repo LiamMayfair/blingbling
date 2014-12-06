@@ -35,11 +35,10 @@ end
 --@author LiamMayfair
 local function align_table(table_string)
     -- Provide sufficient spacing between row fields.
-    --local rows = split(table_string, "\n") -- Use helpers.split() instead.
     local rows = helpers.split(table_string, "\n")
     local aligned_table_rows = {}
     -- Align table header.
-    local header_fields = split(rows[1])
+    local header_fields = helpers.split(rows[1], " ")
     local aligned_header_fields = header_fields[1]
     for hi=2,#header_fields do
 	aligned_header_fields = aligned_header_fields .. "\t" .. header_fields[hi] .. "   "
@@ -49,14 +48,12 @@ local function align_table(table_string)
     table.remove(table_body_rows, 1)
     local aligned_body_rows = {}
     for i,v in ipairs(table_body_rows) do
-	local row_fields = split(v)
+	local row_fields = helpers.split(v, " ")
 	local aligned_row = ""
 	for fi, fv in ipairs(row_fields) do
 	   -- Certain fields are so short they cause misalignments in the table.
 	   -- This can be fixed by adding a few spaces at the end of them.
-	   if #fv < 2 then
-	       fv = pad_cell(fv)
-	   end
+	   fv = pad_cell(v)
 	   if fi == 1 then
 	       if i > 1 and #fv < 5 then
 		   fv = pad_cell(fv)
@@ -101,7 +98,7 @@ local function show_process_info(inc_proc_offset, title_color,user_color, root_c
 	processstats = colorize(processstats, "USER", title_color)
 	processstats = colorize(processstats, "%%CPU", title_color)
 	processstats = colorize(processstats, "%%MEM", title_color)
-	processstats = colorize(processstats, " PID", title_color)
+	processstats = colorize(processstats, "PID", title_color)
 	processstats = colorize(processstats, "GID", title_color)
 	processstats = colorize(processstats, "PPID", title_color)
 	processstats = colorize(processstats, "TTY", title_color)
